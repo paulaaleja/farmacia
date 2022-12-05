@@ -1,30 +1,29 @@
-import { Button, StyleSheet, Text, View } from "react-native";
-
+import { CATEGORIES } from "../data/categories";
+import { FlatList } from "react-native";
+import GridItem from "../components/GridItem";
 import React from "react";
 
-const CategoriesScreen = ({navigation}) => {
+const CategoriesScreen = ({ navigation }) => {
+  const handleSelectedCategory = (item) => {
+    navigation.navigate("Farm", {
+      categoryID: item.id,
+      name: item.title,
+    });
+  };
+
+  const renderGridItem = ({ item }) => (
+    <GridItem item={item} onSelected={handleSelectedCategory} />
+  );
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Hola! Bienvenidos a reserva de Medicamentos de Hp Farma</Text>
-      <Button title="Iniciar Pedido" onPress={() => navigation.navigate("Medicamento")} />
-    </View>
-
-
-
+    <FlatList
+      data={CATEGORIES}
+      keyExtractor={(item) => item.id}
+      renderItem={renderGridItem}
+      numColumns={2}
+    />
   );
 };
 
 export default CategoriesScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#6495ED",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontFamily: "Roboto",
-    backgroundColor: "white",
-  },
-});
+ 
